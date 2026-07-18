@@ -34,9 +34,9 @@
     <div class="success-toast" id="success-toast" hidden role="status">✨ Ta-da! All the clinical drama, none of the data breach.</div>
     <section class="hero">
       <div class="hero-copy">
-        <div class="eyebrow"><span></span>A narrow testbed for clinical coding systems</div>
+        <div class="eyebrow"><span></span>The missing UK clinical-coding test layer</div>
         <h1>Test the code.<br><em>Trace the proof.</em></h1>
-        <p>Build deterministic NHS-style episodes where every expected classification points back to the passage that earns it.</p>
+        <p>US datasets made clinical AI evaluation possible—but they encode US care and billing. NHS teams need UK-native episodes mapped to ICD-10 and OPCS-4, without waiting for patient-level data access.</p>
         <div class="hero-actions">
           <a class="button primary" href="#studio">Generate a case <span>↘</span></a>
           <button class="button quiet" id="run-demo" type="button">Watch one run <span>→</span></button>
@@ -75,6 +75,33 @@
         </div>
         <div class="float-card float-one"><span>↗</span><div><b>Export ready</b><small>JSON · schema v1</small></div></div>
         <div class="float-card float-two"><span>10</span><div><b>Curated scenarios</b><small>2 clinical tracks</small></div></div>
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="case-title">
+      <div class="case-thesis">
+        <span>WHY THIS EXISTS</span>
+        <h2 id="case-title">The benchmark gap<br><em>is the product.</em></h2>
+        <p>The UK does not lack health data. It lacks a ready-to-use, public, coherent episode benchmark for testing NHS clinical coding systems against both diagnosis and procedure standards.</p>
+      </div>
+      <div class="case-comparison">
+        <article>
+          <span class="case-index">01 / USA</span>
+          <h3>Reusable data.<br>Wrong national context.</h3>
+          <p><a href="https://physionet.org/content/mimiciv/3.1/" target="_blank" rel="noreferrer">MIMIC-IV</a> provides de-identified hospital records, notes and ICD billing fields at research scale. It is an extraordinary resource—and it comes from one Boston health system, not the NHS.</p>
+          <b>Useful for model research ≠ evidence of NHS coding performance.</b>
+        </article>
+        <article>
+          <span class="case-index">02 / UK</span>
+          <h3>Relevant data.<br>Not a plug-in benchmark.</h3>
+          <p><a href="https://digital.nhs.uk/hes" target="_blank" rel="noreferrer">HES</a> contains nationally coded activity, but patient-level access is governed. Public <a href="https://digital.nhs.uk/services/artificial-data" target="_blank" rel="noreferrer">Artificial HES</a> helps test pipelines, yet does not preserve relationships between fields and cannot support analysis.</p>
+          <b>No public MIMIC-equivalent for coherent NHS ICD-10 + OPCS-4 episode evaluation.</b>
+        </article>
+      </div>
+      <div class="case-answer">
+        <span>THE BRIDGE</span>
+        <p><strong>EPICODE supplies the missing test fixture:</strong> deterministic NHS-style episodes, expected ICD-10 and OPCS-4 classifications, and passage-level evidence contracts. Synthetic first; governed real-world validation later.</p>
+        <a href="#studio">Inspect the test data ↓</a>
       </div>
     </section>
 
@@ -173,8 +200,8 @@
     <section class="landscape-section" id="landscape">
       <div class="landscape-intro reveal-on-scroll">
         <span class="step-label">THE TRANSATLANTIC DATA SITUATION</span>
-        <h2>Same ambition. Very different eval cupboard.</h2>
-        <p>The US has become the default playground for reusable clinical-data benchmarks. The UK has rich national data, but patient-level access is usually governed, approved and project-specific. In short: excellent ingredients, fewer ready-made test kitchens.</p>
+        <h2>The US benchmark is not an NHS benchmark.</h2>
+        <p>America offers reusable clinical datasets at research scale. Britain offers rich national activity data behind governance and public artificial extracts that are useful for plumbing—not coherent coding evaluation. EPICODE is designed for that specific space between them.</p>
       </div>
 
       <div class="country-grid">
