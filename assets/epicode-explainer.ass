@@ -1,0 +1,36 @@
+[Script Info]
+Title: EPICODE — The Great British Coding Relay
+ScriptType: v4.00+
+PlayResX: 1280
+PlayResY: 720
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Title,DejaVu Sans,52,&H00F4F1E8,&H000000FF,&H00101416,&HCC101416,-1,0,0,0,100,100,-2,0,3,1,0,7,48,48,42,1
+Style: Body,DejaVu Sans,30,&H00F4F1E8,&H000000FF,&H00101416,&HDC101416,-1,0,0,0,100,100,-1,0,3,1,0,2,52,52,44,1
+Style: Detail,DejaVu Sans,22,&H00D9FF47,&H000000FF,&H00101416,&HDC101416,-1,0,0,0,100,100,0,0,3,1,0,2,70,70,45,1
+Style: Finale,DejaVu Sans,54,&H00325CFF,&H000000FF,&H00F4F1E8,&HEEF4F1E8,-1,0,0,0,100,100,-2,0,3,1,0,5,50,50,40,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.20,0:00:03.20,Title,,0,0,0,,THE GREAT BRITISH CODING RELAY
+Dialogue: 0,0:00:03.20,0:00:07.10,Body,,0,0,0,,An ambulance arrives. A patient episode begins.
+Dialogue: 1,0:00:06.70,0:00:09.80,Detail,,0,0,0,,The hi-vis pigeon has already opened an incident ticket.
+Dialogue: 0,0:00:10.10,0:00:13.50,Title,,0,0,0,,DOCTORS TREAT. THEN DOCUMENT.
+Dialogue: 0,0:00:13.40,0:00:17.60,Body,,0,0,0,,Notes. Scans. Discharge summaries. SBARs. More notes.
+Dialogue: 1,0:00:17.20,0:00:19.80,Detail,,0,0,0,,And one mysterious sentence copied forward since Tuesday.
+Dialogue: 0,0:00:20.10,0:00:23.50,Title,,0,0,0,,ENTER: CLINICAL CODING
+Dialogue: 0,0:00:23.30,0:00:27.50,Body,,0,0,0,,Across NHS trusts, coding teams can run to 30+ specialists. They read the whole episode.
+Dialogue: 1,0:00:27.20,0:00:29.80,Detail,,0,0,0,,Years to master. Labour-intensive. Ripe for careful automation.
+Dialogue: 0,0:00:30.10,0:00:33.80,Title,,0,0,0,,CLINICAL CHAOS → ICD-10 + OPCS-4
+Dialogue: 0,0:00:33.60,0:00:37.50,Body,,0,0,0,,The codes drive reimbursement, epidemiology and planning.
+Dialogue: 1,0:00:37.20,0:00:39.80,Detail,,0,0,0,,No codes, no money. Finance starts breathing into a paper bag.
+Dialogue: 0,0:00:40.10,0:00:43.30,Title,,0,0,0,,AI COULD HELP. TINY PROBLEM: DATA.
+Dialogue: 0,0:00:43.10,0:00:46.20,Body,,0,0,0,,Patient records are sensitive. You cannot simply download a ward.
+Dialogue: 1,0:00:46.00,0:00:49.80,Detail,,0,0,0,,USA: MIMIC-IV — reusable, US-specific. UK: OPCS-4, governance, tea.
+Dialogue: 0,0:00:50.10,0:00:53.10,Title,,0,0,0,,SO WE BUILT THE TEST TRACK
+Dialogue: 0,0:00:53.00,0:00:56.40,Body,,0,0,0,,UK-specific synthetic training episodes + a benchmark for coding AI products.
+Dialogue: 1,0:00:56.20,0:00:58.20,Detail,,0,0,0,,Catch hallucinations before they invoice anyone.
+Dialogue: 2,0:00:58.10,0:00:59.85,Finale,,0,0,0,,THE MVP: EPICODE-Bench\NAll the coding drama. None of the data breach.

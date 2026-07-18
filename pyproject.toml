@@ -31,4 +31,4 @@ addopts = "-q"
 where = ["src"]
 
 [tool.setuptools.package-data]
-synthetic_episode_studio = ["templates/*.html", "static/*.css", "static/*.js"]
+synthetic_episode_studio = ["templates/*.html", "static/*.css", "static/*.js", "static/media/*.mp4", "static/media/*.jpg"]

@@ -22,6 +22,7 @@
     </a>
     <nav aria-label="Utility navigation">
       <a href="#studio">Generate</a>
+      <a href="#explainer">Watch film</a>
       <a href="#landscape">USA vs UK</a>
       <a href="/epicode-bench">EPICODE-Bench</a>
       <a href="/docs">API</a>
@@ -103,6 +104,26 @@
         <p><strong>EPICODE supplies the missing test fixture:</strong> deterministic NHS-style episodes, expected ICD-10 and OPCS-4 classifications, and passage-level evidence contracts. Synthetic first; governed real-world validation later.</p>
         <a href="#studio">Inspect the test data ↓</a>
       </div>
+    </section>
+
+    <section class="explainer-section" id="explainer" aria-labelledby="explainer-title">
+      <div class="explainer-heading">
+        <div><span>ONE MINUTE. ONE HI-VIS PIGEON.</span><h2 id="explainer-title">Clinical coding:<br><em>the animated version.</em></h2></div>
+        <p>From ambulance bay to OPCS-4—and why British coding AI needs a British test track. Contains paperwork, a surgical rubber duck and one deeply concerned finance department.</p>
+      </div>
+      <div class="video-frame">
+        <video controls preload="metadata" poster="{{ url_for('static', path='/media/epicode-explainer-poster.jpg') }}" aria-describedby="explainer-transcript">
+          <source src="{{ url_for('static', path='/media/epicode-explainer.mp4') }}" type="video/mp4">
+          Your browser does not support embedded video. <a href="{{ url_for('static', path='/media/epicode-explainer.mp4') }}">Open the explainer video</a>.
+        </video>
+        <span class="video-runtime">01:00 · SOUND-OPTIONAL CINEMA</span>
+      </div>
+      <details class="video-transcript" id="explainer-transcript">
+        <summary>Read the plain-English transcript</summary>
+        <p>A patient episode begins when someone arrives for care. Doctors and nurses treat the patient and document the encounter in notes, scans, discharge summaries and SBARs. Across NHS trusts, specialist clinical-coding teams—sometimes more than thirty people in a large trust—read those records and translate confirmed diagnoses and completed procedures into ICD-10 and OPCS-4 codes.</p>
+        <p>It is skilled, labour-intensive work that takes years to master. The resulting codes support reimbursement, epidemiology and service planning. Automation could help, but patient records are sensitive and difficult for AI companies to obtain. MIMIC-IV gives researchers reusable US hospital data, but it reflects an American institution and coding context rather than NHS workflows.</p>
+        <p>EPICODE is the MVP of a UK-specific synthetic episode dataset and benchmark for training, comparing and evaluating clinical-coding AI products before governed real-world validation.</p>
+      </details>
     </section>
 
     <section class="studio-section" id="studio">

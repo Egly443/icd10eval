@@ -44,11 +44,13 @@ const evaluation = await send("Runtime.evaluate", {
     episodeId: document.querySelector('#episode-id').textContent,
     seedLocked: document.querySelector('#seed').disabled,
     downloadReady: document.querySelector('#download-link').href.startsWith('blob:'),
+    videoDuration: Math.round(document.querySelector('#explainer video').duration),
+    videoReady: document.querySelector('#explainer video').readyState > 0,
   })`,
   returnByValue: true,
 });
 const result = evaluation.result.value;
-if (!result.staticMode || !result.generated || !result.seedLocked || !result.downloadReady || problems.length) {
+if (!result.staticMode || !result.generated || !result.seedLocked || !result.downloadReady || !result.videoReady || result.videoDuration !== 60 || problems.length) {
   throw new Error(JSON.stringify({result, problems}, null, 2));
 }
 console.log(JSON.stringify({result, problems}, null, 2));
