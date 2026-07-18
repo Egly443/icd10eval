@@ -38,7 +38,7 @@ async def test_epicode_bench_page_and_report(client: AsyncClient) -> None:
     assert "EPICODE-Bench Mini leaderboard" in page.text
     report = (await client.get("/api/benchmark")).json()
     assert report["benchmark"] == "EPICODE-Bench Mini"
-    assert report["case_count"] == 10
+    assert report["case_count"] == 20
 
 
 @pytest.mark.anyio

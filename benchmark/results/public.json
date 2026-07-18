@@ -1,41 +1,48 @@
 {
   "benchmark": "EPICODE-Bench Mini",
-  "version": "1.0.0",
-  "case_count": 10,
-  "generated_at": "2026-07-18T12:06:31.853570+00:00",
-  "prompt_sha256": "5157e51d2b373eeb7231bd57594c9a9b4204c1698bb5a15b25b0736db8371d8e",
-  "models": ["gpt-5.6-sol", "gpt-5.6-luna"],
+  "version": "1.1.0",
+  "case_count": 20,
+  "generated_at": "2026-07-18T12:53:15.669599+00:00",
+  "prompt_sha256": "d8adf5d0ef83c117369efbdf155d87d136abdc3d149120df9511fddd182c549e",
+  "models": [
+    "gpt-5.6-sol",
+    "gpt-5.6-luna"
+  ],
   "runs": [
     {
       "model": "gpt-5.6-sol",
-      "reasoning_effort": "low",
+      "reasoning_effort": "xhigh",
       "summary": {
-        "resolved": 1,
-        "total": 10,
-        "resolved_percent": 10.0,
+        "resolved": 14,
+        "total": 20,
+        "resolved_percent": 70.0,
         "code_micro_f1": 100.0,
-        "evidence_micro_f1": 76.5,
+        "evidence_micro_f1": 88.1,
         "hallucination_percent": 0.0,
         "format_success_percent": 100.0,
-        "average_latency_ms": 2249,
-        "input_tokens": 8523,
-        "output_tokens": 692
+        "average_latency_ms": 3923,
+        "input_tokens": 14027,
+        "output_tokens": 2680,
+        "standard_resolved_percent": 40.0,
+        "abstention_trap_resolved_percent": 100.0
       }
     },
     {
       "model": "gpt-5.6-luna",
       "reasoning_effort": "low",
       "summary": {
-        "resolved": 1,
-        "total": 10,
-        "resolved_percent": 10.0,
-        "code_micro_f1": 100.0,
-        "evidence_micro_f1": 76.9,
-        "hallucination_percent": 0.0,
+        "resolved": 12,
+        "total": 20,
+        "resolved_percent": 60.0,
+        "code_micro_f1": 83.3,
+        "evidence_micro_f1": 71.0,
+        "hallucination_percent": 16.7,
         "format_success_percent": 100.0,
-        "average_latency_ms": 1568,
-        "input_tokens": 8523,
-        "output_tokens": 1309
+        "average_latency_ms": 2366,
+        "input_tokens": 14027,
+        "output_tokens": 2796,
+        "standard_resolved_percent": 20.0,
+        "abstention_trap_resolved_percent": 100.0
       }
     }
   ]

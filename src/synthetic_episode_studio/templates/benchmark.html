@@ -22,10 +22,10 @@
         <div class="kicker"><span>UK CLINICAL CODING EVAL</span><b>v{{ report.version }}</b></div>
         <h1>Clinical coding.<br><em>Measured.</em></h1>
         <p>A narrow test of the gap US datasets cannot fill: {{ report.case_count }} NHS-style episodes, fourteen UK ICD-10/OPCS-4 codes, and passage-level proof for every answer.</p>
-        <div class="hero-actions"><a href="#leaderboard">Read the results <span>↓</span></a><span>Run 001 · 18 July 2026</span></div>
+        <div class="hero-actions"><a href="#leaderboard">Read the results <span>↓</span></a><span>v{{ report.version }} · {{ report.case_count }} cases</span></div>
       </div>
       <div class="result-poster" aria-label="Headline benchmark result">
-        <header><span>EPICODE / RUN 001</span><b>COMPLETE</b></header>
+        <header><span>EPICODE / v{{ report.version }}</span><b>COMPLETE</b></header>
         <div class="poster-score"><small>STRICT RESOLUTION</small><strong id="poster-resolved">10%</strong></div>
         <div class="poster-grid"><div><small>CODE F1</small><b id="poster-code">100%</b></div><div><small>EVIDENCE F1</small><b id="poster-evidence">76.9%</b></div></div>
         <footer><span>{{ "%02d" | format(report.models | length) }} MODELS</span><span>{{ report.case_count }} EPISODES</span><span>NO PATIENT DATA</span></footer>
