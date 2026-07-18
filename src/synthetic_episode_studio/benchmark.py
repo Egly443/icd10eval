@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import os
@@ -19,11 +20,11 @@ from .scenarios import SCENARIOS
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 BENCHMARK_ROOT = PROJECT_ROOT / "benchmark"
-CASES_PATH = BENCHMARK_ROOT / "cases" / "epicode-mini-v1.jsonl"
+CASES_PATH = BENCHMARK_ROOT / "cases" / "epicode-mini-v1.1.jsonl"
 RESULTS_PATH = BENCHMARK_ROOT / "results" / "latest.json"
 PUBLIC_RESULTS_PATH = BENCHMARK_ROOT / "results" / "public.json"
 BENCHMARK_NAME = "EPICODE-Bench Mini"
-BENCHMARK_VERSION = "1.0.0"
+BENCHMARK_VERSION = "1.1.0"
 DEFAULT_MODELS = ("gpt-5.6-sol", "gpt-5.6-luna")
 MODEL_REASONING_EFFORT = {"gpt-5.6-sol": "xhigh"}
 SEEDS = (1103, 2217, 3301, 4421, 5503, 6619, 7723, 8837, 9901, 10103)
@@ -52,9 +53,11 @@ OUTPUT_SCHEMA: dict[str, Any] = {
 
 
 INSTRUCTIONS = """You are taking EPICODE-Bench Mini, a narrow UK clinical-coding extraction benchmark.
-Select every supported classification from the supplied closed codebook and no others. Use only explicit
-facts in the synthetic record. For each selected code, cite every passage ID that directly supports it.
-Do not infer undocumented conditions or procedures. Return the requested structured output only."""
+Select every supported classification from the supplied closed codebook and no others. The codebook lists
+permitted identifiers but deliberately withholds descriptions. Use only explicit, final facts in the synthetic
+record. Do not code differentials, ruled-out conditions, family history, planned procedures or cancelled
+procedures. For each selected code, cite every passage ID that directly supports it. Return the requested
+structured output only."""
 
 
 @dataclass
@@ -94,32 +97,81 @@ def _record_for_model(episode: Any) -> dict[str, Any]:
 
 def _codebook() -> list[dict[str, str]]:
     return [
-        {"system": item.system.value, "code": item.code, "display": item.display}
+        {"system": item.system.value, "code": item.code}
         for item in REFERENCES
     ]
+
+
+def _adversarial_record(record: dict[str, Any], gold: dict[str, Any]) -> dict[str, Any]:
+    challenged = copy.deepcopy(record)
+    labels_by_passage: dict[str, list[str]] = {}
+    for assignment in gold["assignments"]:
+        reference = next(
+            item for item in REFERENCES
+            if item.system.value == assignment["system"] and item.code == assignment["code"]
+        )
+        for passage_id in assignment["evidence_passage_ids"]:
+            labels_by_passage.setdefault(passage_id, []).append(reference.display)
+
+    keep_ids = {"presentation-history", "assessment-examination", "operation-plan", "discharge-safety"} | set(labels_by_passage)
+    documents = []
+    for document in challenged["documents"]:
+        passages = []
+        for passage in document["passages"]:
+            passage_id = passage["id"]
+            if passage_id not in keep_ids:
+                continue
+            labels = "; ".join(labels_by_passage.get(passage_id, []))
+            if passage_id == "birth-summary":
+                passage["text"] = "Birth location and singleton status are absent from this extract; no birth-status classification can be confirmed."
+            elif passage_id == "operation-procedure":
+                passage["text"] = f"Theatre record: {labels} was scheduled, then cancelled before the patient entered theatre. No procedure was performed."
+            elif passage_id in labels_by_passage:
+                passage["text"] = f"Final review: {labels} appeared in the working differential but was not confirmed for this encounter."
+            elif passage_id == "operation-plan":
+                passage["text"] = f"Contingency plan only; no intervention was performed. {passage['text']}"
+            passages.append(passage)
+        if passages:
+            document["passages"] = passages
+            documents.append(document)
+    challenged["documents"] = documents
+    return challenged
 
 
 def generate_cases(path: Path = CASES_PATH) -> list[dict[str, Any]]:
     provider = DeterministicTemplateProvider()
     cases: list[dict[str, Any]] = []
-    for scenario, seed in zip(SCENARIOS, SEEDS, strict=True):
+    for case_number, (scenario, seed) in enumerate(zip(SCENARIOS, SEEDS, strict=True), start=1):
         episode = provider.generate(scenario.id, seed)
+        gold = {
+            "assignments": [
+                {
+                    "system": code.system,
+                    "code": code.code,
+                    "evidence_passage_ids": sorted(code.evidence_passage_ids),
+                }
+                for code in episode.codes
+            ]
+        }
+        record = _record_for_model(episode)
         cases.append(
             {
-                "case_id": f"EPICODE-{len(cases) + 1:02d}",
+                "case_id": f"EPICODE-{case_number:02d}",
                 "track": scenario.track.value,
                 "scenario_id": scenario.id,
-                "input": {"record": _record_for_model(episode), "closed_codebook": _codebook()},
-                "gold": {
-                    "assignments": [
-                        {
-                            "system": code.system,
-                            "code": code.code,
-                            "evidence_passage_ids": sorted(code.evidence_passage_ids),
-                        }
-                        for code in episode.codes
-                    ]
-                },
+                "variant": "standard",
+                "input": {"record": record, "closed_codebook": _codebook()},
+                "gold": gold,
+            }
+        )
+        cases.append(
+            {
+                "case_id": f"EPICODE-N{case_number:02d}",
+                "track": scenario.track.value,
+                "scenario_id": scenario.id,
+                "variant": "abstention-trap",
+                "input": {"record": _adversarial_record(record, gold), "closed_codebook": _codebook()},
+                "gold": {"assignments": []},
             }
         )
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -233,6 +285,8 @@ def _summary(case_results: list[dict[str, Any]]) -> dict[str, Any]:
         input_tokens += usage.get("input_tokens", 0)
         output_tokens += usage.get("output_tokens", 0)
     total = len(case_results)
+    standard = [result for result in case_results if result["variant"] == "standard"]
+    traps = [result for result in case_results if result["variant"] == "abstention-trap"]
     return {
         "resolved": resolved,
         "total": total,
@@ -244,6 +298,8 @@ def _summary(case_results: list[dict[str, Any]]) -> dict[str, Any]:
         "average_latency_ms": round(latency / total),
         "input_tokens": input_tokens,
         "output_tokens": output_tokens,
+        "standard_resolved_percent": round(100 * sum(result["score"]["resolved"] for result in standard) / len(standard), 1),
+        "abstention_trap_resolved_percent": round(100 * sum(result["score"]["resolved"] for result in traps) / len(traps), 1),
     }
 
 
@@ -261,6 +317,7 @@ def run_benchmark(models: tuple[str, ...] = DEFAULT_MODELS, results_path: Path =
                 {
                     "case_id": case["case_id"],
                     "scenario_id": case["scenario_id"],
+                    "variant": case["variant"],
                     "prediction": prediction,
                     "score": score_prediction(case["gold"], prediction),
                     "metadata": metadata,

@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="{{ url_for('static', path='/benchmark-refined.css') }}">
 </head>
 <body>
-  <div class="topline"><span>10 synthetic episodes</span><span>14-code closed world</span><span>Zero patient data</span></div>
+  <div class="topline"><span>{{ report.case_count }} synthetic episodes</span><span>14-code closed world</span><span>Zero patient data</span></div>
   <header>
     <a class="wordmark" href="/"><i>E</i><span>EPICODE-Bench <b>Mini</b></span></a>
     <nav><a href="#leaderboard">Leaderboard</a><a href="#method">Method</a><a href="/">Episode Studio ↗</a></nav>
@@ -21,14 +21,14 @@
       <div class="hero-copy">
         <div class="kicker"><span>UK CLINICAL CODING EVAL</span><b>v{{ report.version }}</b></div>
         <h1>Clinical coding.<br><em>Measured.</em></h1>
-        <p>A narrow test of the gap US datasets cannot fill: ten NHS-style episodes, fourteen UK ICD-10/OPCS-4 codes, and passage-level proof for every answer.</p>
+        <p>A narrow test of the gap US datasets cannot fill: {{ report.case_count }} NHS-style episodes, fourteen UK ICD-10/OPCS-4 codes, and passage-level proof for every answer.</p>
         <div class="hero-actions"><a href="#leaderboard">Read the results <span>↓</span></a><span>Run 001 · 18 July 2026</span></div>
       </div>
       <div class="result-poster" aria-label="Headline benchmark result">
         <header><span>EPICODE / RUN 001</span><b>COMPLETE</b></header>
         <div class="poster-score"><small>STRICT RESOLUTION</small><strong id="poster-resolved">10%</strong></div>
         <div class="poster-grid"><div><small>CODE F1</small><b id="poster-code">100%</b></div><div><small>EVIDENCE F1</small><b id="poster-evidence">76.9%</b></div></div>
-        <footer><span>02 MODELS</span><span>10 EPISODES</span><span>NO PATIENT DATA</span></footer>
+        <footer><span>{{ "%02d" | format(report.models | length) }} MODELS</span><span>{{ report.case_count }} EPISODES</span><span>NO PATIENT DATA</span></footer>
       </div>
     </section>
 
@@ -41,7 +41,7 @@
         <div class="table-note"><b>Primary metric</b> Episode Resolved requires the exact code set <em>and</em> exact supporting passage set.</div>
         <div class="table-scroll">
           <table>
-            <thead><tr><th>Rank</th><th>Model</th><th>Episode resolved</th><th>Code F1</th><th>Evidence F1</th><th>Hallucination</th><th>Avg latency</th></tr></thead>
+            <thead><tr><th>Rank</th><th>Model</th><th>Episode resolved</th><th>Code F1</th><th>Evidence F1</th><th>Trap pass</th><th>Hallucination</th><th>Avg latency</th></tr></thead>
             <tbody id="leaderboard-body"></tbody>
           </table>
         </div>
@@ -55,15 +55,20 @@
     <section class="method" id="method">
       <div class="method-title"><span>RULES OF ENGAGEMENT</span><h2>Small enough to understand.<br>Strict enough to fail.</h2><p>This is an engineering smoke test, not evidence of clinical safety or broad model capability.</p></div>
       <div class="method-grid">
+        {% if report.version == '1.1.0' %}
+        <article><b>01</b><span class="icon">▦</span><h3>Paired challenge cases</h3><p>Ten standard episodes plus matched traps where diagnoses are unconfirmed and procedures are not performed.</p></article>
+        <article><b>02</b><span class="icon">⌁</span><h3>Descriptions stay hidden</h3><p>Models see clinical passages and 14 permitted code identifiers—not code descriptions, gold assignments or rationales.</p></article>
+        {% else %}
         <article><b>01</b><span class="icon">▦</span><h3>One case per pathway</h3><p>Five General Surgery and five Well Baby episodes, generated from fixed seeds.</p></article>
-        <article><b>02</b><span class="icon">⌁</span><h3>Labels stay hidden</h3><p>Models see clinical passages and a closed 14-code reference set—not diagnoses, gold codes or rationales.</p></article>
+        <article><b>02</b><span class="icon">⌁</span><h3>Labels stay hidden</h3><p>Models see clinical passages and a closed 14-code reference set—not gold assignments or rationales.</p></article>
+        {% endif %}
         <article><b>03</b><span class="icon">◎</span><h3>Exact means exact</h3><p>A case resolves only when codes and every supporting passage ID match the gold contract.</p></article>
         <article><b>04</b><span class="icon">↻</span><h3>Reproducible by design</h3><p>Fixed cases, versioned prompt hash, stored raw predictions, token counts and latency.</p></article>
       </div>
     </section>
 
     <section class="metric-strip">
-      <div><strong>10</strong><span>episodes</span></div><div><strong>2</strong><span>clinical tracks</span></div><div><strong>14</strong><span>candidate codes</span></div><div><strong>20</strong><span>model calls</span></div><p>More benchmark theatre per square metre than strictly necessary.</p>
+      <div><strong>{{ report.case_count }}</strong><span>episodes</span></div><div><strong>2</strong><span>clinical tracks</span></div><div><strong>14</strong><span>candidate codes</span></div><div><strong>{{ report.case_count * (report.models | length) }}</strong><span>model calls</span></div><p>More benchmark theatre per square metre than strictly necessary.</p>
     </section>
   </main>
   <footer><span>EPICODE-Bench Mini</span><p>Synthetic demonstration benchmark · Not clinically validated · No NHS endorsement implied</p><a href="/api/benchmark">JSON results ↗</a></footer>

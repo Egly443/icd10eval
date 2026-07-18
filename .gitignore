@@ -8,5 +8,5 @@ __pycache__/
 episodes/generated/*.json
 !episodes/generated/.gitkeep
 benchmark/results/latest.json
-benchmark/cases/epicode-mini-v1.jsonl
+benchmark/cases/*.jsonl
 site/

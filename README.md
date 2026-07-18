@@ -71,7 +71,7 @@ curl -X POST http://127.0.0.1:8000/api/episodes \
 
 ## EPICODE-Bench Mini
 
-Open [http://127.0.0.1:8000/epicode-bench](http://127.0.0.1:8000/epicode-bench) for the SWE-bench-style leaderboard. The benchmark contains one fixed-seed case for each of the ten pathways. Models receive clinical passages and a closed 14-code ICD-10/OPCS-4 codebook; diagnoses, expected codes, rationales and other label-bearing fields are withheld.
+Open [http://127.0.0.1:8000/epicode-bench](http://127.0.0.1:8000/epicode-bench) for the SWE-bench-style leaderboard. Version 1.1 contains one fixed-seed case and one matched abstention trap for each of the ten pathways. The traps present diagnoses as unconfirmed differentials and procedures as planned or cancelled, with an empty gold assignment set. Models receive clinical passages and a closed 14-code ICD-10/OPCS-4 codebook whose descriptions are withheld; diagnoses, expected codes, rationales and other label-bearing fields remain hidden.
 
 The headline **Episode Resolved** metric requires both the exact classification set and exact supporting-passage set. Secondary metrics report micro code F1, micro evidence F1, hallucinated-code rate, latency and token use.
 

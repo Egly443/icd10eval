@@ -25,7 +25,7 @@ function render() {
       <td><div class="model"><i class="${colour}"></i><span><b>${modelLabel(model)}</b><small>${tier} · ${model}</small></span></div></td>
       <td class="hero-metric">${run ? `<b>${summary.resolved}/${summary.total}</b><span>${summary.resolved_percent}%</span>` : '<span class="pending">Awaiting run</span>'}</td>
       <td>${metric(summary.code_micro_f1)}</td><td>${metric(summary.evidence_micro_f1)}</td>
-      <td>${metric(summary.hallucination_percent)}</td><td>${metric(summary.average_latency_ms, ' ms')}</td>
+      <td>${metric(summary.abstention_trap_resolved_percent)}</td><td>${metric(summary.hallucination_percent)}</td><td>${metric(summary.average_latency_ms, ' ms')}</td>
     </tr>`;
   }).join('');
   const complete = Boolean(report.runs?.length);
