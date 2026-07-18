@@ -1,0 +1,209 @@
+{
+  "schema_version": "1.0.0",
+  "metadata": {
+    "episode_id": "SES-WE-NEONATAL-HYPOGLYCAEMIA-002034",
+    "scenario_id": "neonatal-hypoglycaemia",
+    "track": "well-baby",
+    "seed": 2034,
+    "synthetic": true,
+    "generated_at": "2026-06-20T14:25:00Z",
+    "generator": "deterministic-template-v1",
+    "classification_versions": {
+      "ICD-10": "ICD-10 5th Edition 2026",
+      "OPCS-4": "OPCS-4.11 (2026)"
+    },
+    "intended_use": "AI product evaluation and demonstration"
+  },
+  "patient": {
+    "synthetic_identifier": "SYN-BABY-002034",
+    "display_name": "Synthetic newborn 034",
+    "age": "1 days",
+    "sex": "Female",
+    "gestational_age_weeks": 38,
+    "birth_weight_grams": 3150
+  },
+  "encounter": {
+    "admission_at": "2026-06-19T09:20:00Z",
+    "discharge_at": "2026-06-20T14:20:00Z",
+    "specialty": "Neonatal care",
+    "care_setting": "Synthetic NHS-style inpatient episode",
+    "discharge_destination": "Usual place of residence with safety-net advice"
+  },
+  "encounter_summary": "Transient neonatal hypoglycaemia: An at-risk term newborn is screened during the birth admission and has a low pre-feed glucose result. Supported feeding, glucose gel according to local protocol and serial glucose monitoring. Pre-feed glucose values stabilise and feeding is effective before discharge.",
+  "timeline": [
+    {
+      "occurred_at": "2026-06-19T09:20:00Z",
+      "title": "Episode opened",
+      "detail": "An at-risk term newborn is screened during the birth admission and has a low pre-feed glucose result.",
+      "status": "admitted"
+    },
+    {
+      "occurred_at": "2026-06-19T13:20:00Z",
+      "title": "Assessment complete",
+      "detail": "Repeat bedside glucose confirms transient neonatal hypoglycaemia, improving after feeding intervention.",
+      "status": "reviewed"
+    },
+    {
+      "occurred_at": "2026-06-19T17:20:00Z",
+      "title": "Care plan reviewed",
+      "detail": "Supported feeding, glucose gel according to local protocol and serial glucose monitoring.",
+      "status": "complete"
+    },
+    {
+      "occurred_at": "2026-06-20T14:20:00Z",
+      "title": "Discharged",
+      "detail": "Pre-feed glucose values stabilise and feeding is effective before discharge.",
+      "status": "complete"
+    }
+  ],
+  "documents": [
+    {
+      "id": "birth-record",
+      "document_type": "Birth record",
+      "title": "Synthetic birth summary",
+      "authored_at": "2026-06-19T09:20:00Z",
+      "author_role": "Midwife",
+      "passages": [
+        {
+          "id": "birth-summary",
+          "text": "Live singleton born in hospital at term and admitted to the postnatal ward for newborn care."
+        }
+      ]
+    },
+    {
+      "id": "admission-assessment",
+      "document_type": "Admission note",
+      "title": "Initial clinical assessment",
+      "authored_at": "2026-06-19T10:20:00Z",
+      "author_role": "Specialty clinician",
+      "passages": [
+        {
+          "id": "presentation-history",
+          "text": "An at-risk term newborn is screened during the birth admission and has a low pre-feed glucose result."
+        },
+        {
+          "id": "assessment-examination",
+          "text": "Alert newborn with normal temperature and cardiorespiratory observations and no seizures."
+        },
+        {
+          "id": "assessment-diagnosis",
+          "text": "Clinical impression: Transitory neonatal hypoglycaemia."
+        }
+      ]
+    },
+    {
+      "id": "investigation-review",
+      "document_type": "Results review",
+      "title": "Investigation and observation review",
+      "authored_at": "2026-06-19T13:20:00Z",
+      "author_role": "Reviewing clinician",
+      "passages": [
+        {
+          "id": "imaging-result",
+          "text": "Repeat bedside glucose confirms transient neonatal hypoglycaemia, improving after feeding intervention."
+        }
+      ]
+    },
+    {
+      "id": "management-plan",
+      "document_type": "Care plan",
+      "title": "Management plan",
+      "authored_at": "2026-06-19T17:20:00Z",
+      "author_role": "Multidisciplinary team",
+      "passages": [
+        {
+          "id": "management-plan-text",
+          "text": "Supported feeding, glucose gel according to local protocol and serial glucose monitoring."
+        }
+      ]
+    },
+    {
+      "id": "discharge-summary",
+      "document_type": "Discharge summary",
+      "title": "Discharge and safety-net summary",
+      "authored_at": "2026-06-20T13:20:00Z",
+      "author_role": "Discharging clinician",
+      "passages": [
+        {
+          "id": "discharge-outcome",
+          "text": "Pre-feed glucose values stabilise and feeding is effective before discharge."
+        },
+        {
+          "id": "discharge-safety",
+          "text": "Synthetic record only. Review trigger reference 297; not for patient care."
+        }
+      ]
+    }
+  ],
+  "diagnoses": [
+    {
+      "name": "Transitory neonatal hypoglycaemia",
+      "category": "primary diagnosis",
+      "status": "confirmed"
+    }
+  ],
+  "procedures": [],
+  "procedure_note": "No classifiable OPCS-4 intervention is documented; no procedure code has been fabricated.",
+  "codes": [
+    {
+      "system": "ICD-10",
+      "version": "ICD-10 5th Edition 2026",
+      "code": "P70.4",
+      "display": "Other neonatal hypoglycaemia",
+      "rationale": "The episode documentation supports P70.4 (Other neonatal hypoglycaemia).",
+      "evidence_passage_ids": [
+        "assessment-diagnosis",
+        "imaging-result"
+      ],
+      "source_url": "https://classbrowser.nhs.uk/ICD-10-5TH-Edition/vol1/block-p70-p74.htm"
+    },
+    {
+      "system": "ICD-10",
+      "version": "ICD-10 5th Edition 2026",
+      "code": "Z38.0",
+      "display": "Singleton, born in hospital",
+      "rationale": "The episode documentation supports Z38.0 (Singleton, born in hospital).",
+      "evidence_passage_ids": [
+        "birth-summary"
+      ],
+      "source_url": "https://classbrowser.nhs.uk/ICD-10-5TH-Edition/vol1/block-z30-z39.htm"
+    }
+  ],
+  "validation": {
+    "valid": true,
+    "evidence_coverage_percent": 100,
+    "checks": [
+      {
+        "name": "chronology",
+        "status": "pass",
+        "message": "Timeline is chronological and encounter-bounded."
+      },
+      {
+        "name": "reference-library",
+        "status": "pass",
+        "message": "Every code is in the curated reference subset."
+      },
+      {
+        "name": "evidence-links",
+        "status": "pass",
+        "message": "Every code resolves to supporting passages."
+      },
+      {
+        "name": "track-demographics",
+        "status": "pass",
+        "message": "Demographics are plausible for the selected track."
+      },
+      {
+        "name": "synthetic-identifiers",
+        "status": "pass",
+        "message": "Synthetic-only identifiers and labels are present."
+      },
+      {
+        "name": "procedure-consistency",
+        "status": "pass",
+        "message": "Procedure concepts and OPCS-4 assignments agree."
+      }
+    ]
+  },
+  "safety_notice": "Synthetic demonstration data. Not clinically validated and not for patient care."
+}

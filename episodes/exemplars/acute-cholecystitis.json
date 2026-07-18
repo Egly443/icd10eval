@@ -1,0 +1,206 @@
+{
+  "schema_version": "1.0.0",
+  "metadata": {
+    "episode_id": "SES-GE-ACUTE-CHOLECYSTITIS-002027",
+    "scenario_id": "acute-cholecystitis",
+    "track": "general-surgery",
+    "seed": 2027,
+    "synthetic": true,
+    "generated_at": "2026-06-13T11:35:00Z",
+    "generator": "deterministic-template-v1",
+    "classification_versions": {
+      "ICD-10": "ICD-10 5th Edition 2026",
+      "OPCS-4": "OPCS-4.11 (2026)"
+    },
+    "intended_use": "AI product evaluation and demonstration"
+  },
+  "patient": {
+    "synthetic_identifier": "SYN-ADULT-002027",
+    "display_name": "Synthetic adult 027",
+    "age": "22 years",
+    "sex": "Male",
+    "gestational_age_weeks": null,
+    "birth_weight_grams": null
+  },
+  "encounter": {
+    "admission_at": "2026-06-12T09:30:00Z",
+    "discharge_at": "2026-06-13T11:30:00Z",
+    "specialty": "General Surgery",
+    "care_setting": "Synthetic NHS-style inpatient episode",
+    "discharge_destination": "Usual place of residence with safety-net advice"
+  },
+  "encounter_summary": "Acute calculous cholecystitis: Persistent right upper-quadrant pain, fever and vomiting beginning after an evening meal. Antibiotics and total cholecystectomy after surgical review and consent. Pain controlled, oral intake restored and discharge advice understood.",
+  "timeline": [
+    {
+      "occurred_at": "2026-06-12T09:30:00Z",
+      "title": "Episode opened",
+      "detail": "Persistent right upper-quadrant pain, fever and vomiting beginning after an evening meal.",
+      "status": "admitted"
+    },
+    {
+      "occurred_at": "2026-06-12T13:30:00Z",
+      "title": "Assessment complete",
+      "detail": "Ultrasound shows gallstones, gallbladder wall thickening and pericholecystic fluid.",
+      "status": "reviewed"
+    },
+    {
+      "occurred_at": "2026-06-12T17:30:00Z",
+      "title": "Procedure completed",
+      "detail": "Total cholecystectomy",
+      "status": "complete"
+    },
+    {
+      "occurred_at": "2026-06-13T11:30:00Z",
+      "title": "Discharged",
+      "detail": "Pain controlled, oral intake restored and discharge advice understood.",
+      "status": "complete"
+    }
+  ],
+  "documents": [
+    {
+      "id": "admission-assessment",
+      "document_type": "Admission note",
+      "title": "Initial clinical assessment",
+      "authored_at": "2026-06-12T10:30:00Z",
+      "author_role": "Specialty clinician",
+      "passages": [
+        {
+          "id": "presentation-history",
+          "text": "Persistent right upper-quadrant pain, fever and vomiting beginning after an evening meal."
+        },
+        {
+          "id": "assessment-examination",
+          "text": "Right upper-quadrant tenderness and a positive Murphy sign without jaundice."
+        },
+        {
+          "id": "assessment-diagnosis",
+          "text": "Clinical impression: Gallbladder calculus with acute cholecystitis."
+        }
+      ]
+    },
+    {
+      "id": "investigation-review",
+      "document_type": "Results review",
+      "title": "Investigation and observation review",
+      "authored_at": "2026-06-12T13:30:00Z",
+      "author_role": "Reviewing clinician",
+      "passages": [
+        {
+          "id": "imaging-result",
+          "text": "Ultrasound shows gallstones, gallbladder wall thickening and pericholecystic fluid."
+        }
+      ]
+    },
+    {
+      "id": "operative-record",
+      "document_type": "Procedure record",
+      "title": "Synthetic operative note",
+      "authored_at": "2026-06-12T17:30:00Z",
+      "author_role": "Operating surgeon",
+      "passages": [
+        {
+          "id": "operation-procedure",
+          "text": "Procedure completed: Total cholecystectomy. No immediate complication documented."
+        },
+        {
+          "id": "operation-plan",
+          "text": "Antibiotics and total cholecystectomy after surgical review and consent."
+        }
+      ]
+    },
+    {
+      "id": "discharge-summary",
+      "document_type": "Discharge summary",
+      "title": "Discharge and safety-net summary",
+      "authored_at": "2026-06-13T10:30:00Z",
+      "author_role": "Discharging clinician",
+      "passages": [
+        {
+          "id": "discharge-outcome",
+          "text": "Pain controlled, oral intake restored and discharge advice understood."
+        },
+        {
+          "id": "discharge-safety",
+          "text": "Synthetic record only. Review trigger reference 911; not for patient care."
+        }
+      ]
+    }
+  ],
+  "diagnoses": [
+    {
+      "name": "Gallbladder calculus with acute cholecystitis",
+      "category": "primary diagnosis",
+      "status": "confirmed"
+    }
+  ],
+  "procedures": [
+    {
+      "name": "Total cholecystectomy",
+      "category": "principal procedure",
+      "status": "confirmed"
+    }
+  ],
+  "procedure_note": "A classified intervention is documented for this episode.",
+  "codes": [
+    {
+      "system": "ICD-10",
+      "version": "ICD-10 5th Edition 2026",
+      "code": "K80.0",
+      "display": "Calculus of gallbladder with acute cholecystitis",
+      "rationale": "The episode documentation supports K80.0 (Calculus of gallbladder with acute cholecystitis).",
+      "evidence_passage_ids": [
+        "assessment-diagnosis",
+        "imaging-result"
+      ],
+      "source_url": "https://classbrowser.nhs.uk/ICD-10-5TH-Edition/vol1/block-k80-k87.htm"
+    },
+    {
+      "system": "OPCS-4",
+      "version": "OPCS-4.11 (2026)",
+      "code": "J18.3",
+      "display": "Total cholecystectomy NEC",
+      "rationale": "The documented procedure supports J18.3 (Total cholecystectomy NEC).",
+      "evidence_passage_ids": [
+        "operation-procedure"
+      ],
+      "source_url": "https://classbrowser.nhs.uk/"
+    }
+  ],
+  "validation": {
+    "valid": true,
+    "evidence_coverage_percent": 100,
+    "checks": [
+      {
+        "name": "chronology",
+        "status": "pass",
+        "message": "Timeline is chronological and encounter-bounded."
+      },
+      {
+        "name": "reference-library",
+        "status": "pass",
+        "message": "Every code is in the curated reference subset."
+      },
+      {
+        "name": "evidence-links",
+        "status": "pass",
+        "message": "Every code resolves to supporting passages."
+      },
+      {
+        "name": "track-demographics",
+        "status": "pass",
+        "message": "Demographics are plausible for the selected track."
+      },
+      {
+        "name": "synthetic-identifiers",
+        "status": "pass",
+        "message": "Synthetic-only identifiers and labels are present."
+      },
+      {
+        "name": "procedure-consistency",
+        "status": "pass",
+        "message": "Procedure concepts and OPCS-4 assignments agree."
+      }
+    ]
+  },
+  "safety_notice": "Synthetic demonstration data. Not clinically validated and not for patient care."
+}

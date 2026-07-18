@@ -1,0 +1,467 @@
+{
+  "$defs": {
+    "ClinicalConcept": {
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "status": {
+          "default": "confirmed",
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "category"
+      ],
+      "title": "ClinicalConcept",
+      "type": "object"
+    },
+    "ClinicalDocument": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "document_type": {
+          "title": "Document Type",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "authored_at": {
+          "format": "date-time",
+          "title": "Authored At",
+          "type": "string"
+        },
+        "author_role": {
+          "title": "Author Role",
+          "type": "string"
+        },
+        "passages": {
+          "items": {
+            "$ref": "#/$defs/Passage"
+          },
+          "title": "Passages",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "document_type",
+        "title",
+        "authored_at",
+        "author_role",
+        "passages"
+      ],
+      "title": "ClinicalDocument",
+      "type": "object"
+    },
+    "CodeAssignment": {
+      "properties": {
+        "system": {
+          "$ref": "#/$defs/CodeSystem"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        },
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "display": {
+          "title": "Display",
+          "type": "string"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "evidence_passage_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Evidence Passage Ids",
+          "type": "array"
+        },
+        "source_url": {
+          "title": "Source Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "system",
+        "version",
+        "code",
+        "display",
+        "rationale",
+        "evidence_passage_ids",
+        "source_url"
+      ],
+      "title": "CodeAssignment",
+      "type": "object"
+    },
+    "CodeSystem": {
+      "enum": [
+        "ICD-10",
+        "OPCS-4"
+      ],
+      "title": "CodeSystem",
+      "type": "string"
+    },
+    "Encounter": {
+      "properties": {
+        "admission_at": {
+          "format": "date-time",
+          "title": "Admission At",
+          "type": "string"
+        },
+        "discharge_at": {
+          "format": "date-time",
+          "title": "Discharge At",
+          "type": "string"
+        },
+        "specialty": {
+          "title": "Specialty",
+          "type": "string"
+        },
+        "care_setting": {
+          "title": "Care Setting",
+          "type": "string"
+        },
+        "discharge_destination": {
+          "title": "Discharge Destination",
+          "type": "string"
+        }
+      },
+      "required": [
+        "admission_at",
+        "discharge_at",
+        "specialty",
+        "care_setting",
+        "discharge_destination"
+      ],
+      "title": "Encounter",
+      "type": "object"
+    },
+    "EpisodeMetadata": {
+      "properties": {
+        "episode_id": {
+          "title": "Episode Id",
+          "type": "string"
+        },
+        "scenario_id": {
+          "title": "Scenario Id",
+          "type": "string"
+        },
+        "track": {
+          "$ref": "#/$defs/Track"
+        },
+        "seed": {
+          "maximum": 999999999,
+          "minimum": 0,
+          "title": "Seed",
+          "type": "integer"
+        },
+        "synthetic": {
+          "default": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "generated_at": {
+          "format": "date-time",
+          "title": "Generated At",
+          "type": "string"
+        },
+        "generator": {
+          "default": "deterministic-template-v1",
+          "title": "Generator",
+          "type": "string"
+        },
+        "classification_versions": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Classification Versions",
+          "type": "object"
+        },
+        "intended_use": {
+          "default": "AI product evaluation and demonstration",
+          "title": "Intended Use",
+          "type": "string"
+        }
+      },
+      "required": [
+        "episode_id",
+        "scenario_id",
+        "track",
+        "seed",
+        "generated_at",
+        "classification_versions"
+      ],
+      "title": "EpisodeMetadata",
+      "type": "object"
+    },
+    "Passage": {
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ],
+      "title": "Passage",
+      "type": "object"
+    },
+    "Patient": {
+      "properties": {
+        "synthetic_identifier": {
+          "title": "Synthetic Identifier",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
+          "type": "string"
+        },
+        "age": {
+          "title": "Age",
+          "type": "string"
+        },
+        "sex": {
+          "title": "Sex",
+          "type": "string"
+        },
+        "gestational_age_weeks": {
+          "anyOf": [
+            {
+              "maximum": 44,
+              "minimum": 22,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Gestational Age Weeks"
+        },
+        "birth_weight_grams": {
+          "anyOf": [
+            {
+              "maximum": 6000,
+              "minimum": 300,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Birth Weight Grams"
+        }
+      },
+      "required": [
+        "synthetic_identifier",
+        "display_name",
+        "age",
+        "sex"
+      ],
+      "title": "Patient",
+      "type": "object"
+    },
+    "TimelineEvent": {
+      "properties": {
+        "occurred_at": {
+          "format": "date-time",
+          "title": "Occurred At",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "detail": {
+          "title": "Detail",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "occurred_at",
+        "title",
+        "detail",
+        "status"
+      ],
+      "title": "TimelineEvent",
+      "type": "object"
+    },
+    "Track": {
+      "enum": [
+        "general-surgery",
+        "well-baby"
+      ],
+      "title": "Track",
+      "type": "string"
+    },
+    "ValidationCheck": {
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "status",
+        "message"
+      ],
+      "title": "ValidationCheck",
+      "type": "object"
+    },
+    "ValidationSummary": {
+      "properties": {
+        "valid": {
+          "title": "Valid",
+          "type": "boolean"
+        },
+        "evidence_coverage_percent": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Evidence Coverage Percent",
+          "type": "integer"
+        },
+        "checks": {
+          "items": {
+            "$ref": "#/$defs/ValidationCheck"
+          },
+          "title": "Checks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "valid",
+        "evidence_coverage_percent",
+        "checks"
+      ],
+      "title": "ValidationSummary",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "schema_version": {
+      "default": "1.0.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "metadata": {
+      "$ref": "#/$defs/EpisodeMetadata"
+    },
+    "patient": {
+      "$ref": "#/$defs/Patient"
+    },
+    "encounter": {
+      "$ref": "#/$defs/Encounter"
+    },
+    "encounter_summary": {
+      "title": "Encounter Summary",
+      "type": "string"
+    },
+    "timeline": {
+      "items": {
+        "$ref": "#/$defs/TimelineEvent"
+      },
+      "title": "Timeline",
+      "type": "array"
+    },
+    "documents": {
+      "items": {
+        "$ref": "#/$defs/ClinicalDocument"
+      },
+      "title": "Documents",
+      "type": "array"
+    },
+    "diagnoses": {
+      "items": {
+        "$ref": "#/$defs/ClinicalConcept"
+      },
+      "title": "Diagnoses",
+      "type": "array"
+    },
+    "procedures": {
+      "items": {
+        "$ref": "#/$defs/ClinicalConcept"
+      },
+      "title": "Procedures",
+      "type": "array"
+    },
+    "procedure_note": {
+      "title": "Procedure Note",
+      "type": "string"
+    },
+    "codes": {
+      "items": {
+        "$ref": "#/$defs/CodeAssignment"
+      },
+      "title": "Codes",
+      "type": "array"
+    },
+    "validation": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ValidationSummary"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "safety_notice": {
+      "default": "Synthetic demonstration data. Not clinically validated and not for patient care.",
+      "title": "Safety Notice",
+      "type": "string"
+    }
+  },
+  "required": [
+    "metadata",
+    "patient",
+    "encounter",
+    "encounter_summary",
+    "timeline",
+    "documents",
+    "diagnoses",
+    "procedures",
+    "procedure_note",
+    "codes"
+  ],
+  "title": "Episode",
+  "type": "object"
+}

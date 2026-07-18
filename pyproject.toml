@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "synthetic-episode-studio"
+version = "0.1.0"
+description = "Deterministic, evidence-linked synthetic NHS episode generation for evaluation teams."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi==0.116.1",
+  "jinja2==3.1.6",
+  "pydantic==2.11.7",
+  "python-multipart==0.0.20",
+  "uvicorn[standard]==0.35.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "httpx==0.28.1",
+  "jsonschema==4.25.0",
+  "pytest==8.4.1",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+synthetic_episode_studio = ["templates/*.html", "static/*.css", "static/*.js"]

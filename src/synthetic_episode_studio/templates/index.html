@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Create consistent, traceable, export-ready synthetic clinical episodes without exposing patient data.">
+  <title>Synthetic Episode Studio</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='/studio.css') }}">
+</head>
+<body>
+  <div class="safety-strip">
+    <span>100% synthetic</span>
+    <span>Demonstration &amp; evaluation use only</span>
+    <span>Not clinically validated</span>
+  </div>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Synthetic Episode Studio home">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span>Synthetic <strong>Episode Studio</strong></span>
+    </a>
+    <nav aria-label="Utility navigation">
+      <a href="#studio">Generate</a>
+      <a href="/docs">API</a>
+      <span class="version-pill">MVP · v0.1</span>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span></span>Evaluation data, without patient risk</div>
+        <h1>Clinical episodes built for <em>proof, not production.</em></h1>
+        <p>Create consistent, traceable, export-ready synthetic NHS-style episodes for testing commercial clinical-coding products—without exposing patient data.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#studio">Build an episode <span>→</span></a>
+          <button class="button quiet" id="run-demo" type="button"><span class="play">▶</span> Run the 90-sec demo</button>
+        </div>
+        <div class="trust-row" aria-label="Product qualities">
+          <span><b>✓</b> Deterministic</span>
+          <span><b>✓</b> Evidence linked</span>
+          <span><b>✓</b> Schema validated</span>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="Episode traceability preview">
+        <div class="glow"></div>
+        <div class="mini-window">
+          <div class="mini-top"><span></span><span></span><span></span><b>TRACE VIEW</b></div>
+          <div class="mini-patient">
+            <div class="avatar">S</div>
+            <div><strong>Synthetic adult 026</strong><small>General Surgery · Validated</small></div>
+            <span class="valid-dot">✓</span>
+          </div>
+          <div class="mini-grid">
+            <div class="mini-doc">
+              <small>ASSESSMENT · 09:20</small>
+              <div class="line w85"></div><div class="line w70"></div>
+              <p>Clinical impression: <mark>acute appendicitis</mark>.</p>
+              <div class="line w90"></div><div class="line w55"></div>
+            </div>
+            <div class="mini-code">
+              <small>ICD-10 · 2026</small>
+              <strong>K35.8</strong>
+              <span>Acute appendicitis</span>
+              <i>2 evidence links</i>
+            </div>
+          </div>
+          <div class="mini-quality"><span>Schema valid</span><b>100% evidence coverage</b></div>
+        </div>
+        <div class="float-card float-one"><span>↗</span><div><b>Export ready</b><small>JSON · schema v1</small></div></div>
+        <div class="float-card float-two"><span>10</span><div><b>Curated scenarios</b><small>2 clinical tracks</small></div></div>
+      </div>
+    </section>
+
+    <section class="studio-section" id="studio">
+      <div class="section-heading">
+        <div><span class="step-label">EPISODE FACTORY</span><h2>From scenario to traceable dossier</h2></div>
+        <p>Choose a pathway and seed. The same inputs always produce the same validated episode.</p>
+      </div>
+
+      <form class="generator-panel" id="generator-form">
+        <fieldset>
+          <legend><span>01</span> Choose a clinical track</legend>
+          <div class="track-grid">
+            <label class="track-card selected">
+              <input type="radio" name="track" value="general-surgery" checked>
+              <span class="track-icon surgery" aria-hidden="true">✣</span>
+              <span><strong>General Surgery</strong><small>5 acute &amp; elective pathways</small></span>
+              <i></i>
+            </label>
+            <label class="track-card">
+              <input type="radio" name="track" value="well-baby">
+              <span class="track-icon baby" aria-hidden="true">◌</span>
+              <span><strong>Well Baby</strong><small>5 newborn care pathways</small></span>
+              <i></i>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend><span>02</span> Select a scenario</legend>
+          <div class="control-row">
+            <label class="select-wrap">
+              <span>Clinical scenario</span>
+              <select id="scenario" name="scenario" aria-label="Clinical scenario">
+                <option value="surprise">Surprise me — select a curated scenario</option>
+                {% for scenario in general_surgery %}<option data-track="general-surgery" value="{{ scenario.id }}"{% if scenario.id == 'acute-appendicitis' %} selected{% endif %}>{{ scenario.title }}</option>{% endfor %}
+                {% for scenario in well_baby %}<option data-track="well-baby" value="{{ scenario.id }}" hidden>{{ scenario.title }}</option>{% endfor %}
+              </select>
+            </label>
+            <label class="seed-wrap">
+              <span>Generation seed</span>
+              <div><input id="seed" name="seed" type="number" min="0" max="999999999" value="2026"><button id="randomise" type="button" title="Randomise seed">↻</button></div>
+            </label>
+            <button class="generate-button" type="submit"><span class="spark">✦</span><span><b>Generate episode</b><small>Validate &amp; persist</small></span><i>→</i></button>
+          </div>
+        </fieldset>
+        <div class="generator-foot"><span><i></i>No API key required</span><span>ICD-10 5th Edition 2026</span><span>OPCS-4.11</span></div>
+      </form>
+
+      <div class="loading-panel" id="loading-panel" hidden aria-live="polite">
+        <div class="loader-orbit"><span></span><i>✦</i></div>
+        <div><strong id="loading-title">Assembling synthetic episode</strong><p id="loading-copy">Applying scenario constraints and evidence contracts…</p></div>
+        <div class="loading-track"><span></span></div>
+      </div>
+
+      <section class="episode-shell" id="episode-shell" hidden aria-live="polite">
+        <div class="episode-toolbar">
+          <div><span class="synthetic-chip">SYNTHETIC</span><span id="episode-id"></span></div>
+          <div><button class="icon-button" id="copy-id" type="button">Copy ID</button><a class="button export" id="download-link" href="#">Export JSON <span>↓</span></a></div>
+        </div>
+        <div class="episode-hero">
+          <div class="patient-avatar" id="patient-avatar">S</div>
+          <div class="patient-main"><span id="track-label"></span><h2 id="patient-name"></h2><p id="patient-meta"></p></div>
+          <div class="episode-title"><span>Episode</span><strong id="scenario-title"></strong><small id="encounter-dates"></small></div>
+          <div class="validation-seal"><span>✓</span><div><strong>Validated</strong><small>All quality gates passed</small></div></div>
+        </div>
+        <div class="quality-grid" id="quality-grid"></div>
+
+        <div class="episode-tabs" role="tablist">
+          <button class="active" data-view="dossier" role="tab">Clinical dossier</button>
+          <button data-view="timeline" role="tab">Episode timeline</button>
+          <button data-view="quality" role="tab">Quality &amp; provenance</button>
+        </div>
+
+        <div class="episode-view active" id="view-dossier">
+          <div class="dossier-layout">
+            <div>
+              <article class="summary-card"><span>ENCOUNTER SUMMARY</span><p id="encounter-summary"></p></article>
+              <div class="document-stack" id="documents"></div>
+            </div>
+            <aside class="coding-panel">
+              <div class="coding-head"><div><span>TRACEABLE OUTPUT</span><h3>Clinical classifications</h3></div><b id="code-count"></b></div>
+              <p class="coding-help">Select a code to reveal its supporting evidence in the record.</p>
+              <div id="codes"></div>
+              <div class="procedure-note"><span>PROCEDURE RULE</span><p id="procedure-note"></p></div>
+              <div class="source-note">↗ Limited curated reference subset · <a href="https://classbrowser.nhs.uk/" target="_blank" rel="noreferrer">NHS source</a></div>
+            </aside>
+          </div>
+        </div>
+        <div class="episode-view" id="view-timeline"><div class="timeline" id="timeline"></div></div>
+        <div class="episode-view" id="view-quality"><div class="quality-detail" id="quality-detail"></div></div>
+        <div class="safety-notice"><b>Important</b><span id="safety-notice"></span><i>No NHS endorsement implied.</i></div>
+      </section>
+      <div class="error-panel" id="error-panel" hidden><strong>Episode generation paused</strong><p id="error-copy"></p><button type="button" id="retry">Try again</button></div>
+    </section>
+
+    <section class="value-section">
+      <span class="step-label">WHY IT MATTERS</span>
+      <h2>A safer starting line for clinical AI evaluation</h2>
+      <div class="value-grid">
+        <article><span>01</span><h3>No patient exposure</h3><p>Purpose-built synthetic records let teams develop evaluation workflows before governed data access.</p></article>
+        <article><span>02</span><h3>Traceability by design</h3><p>Every classification points back to explicit evidence, making expected outputs inspectable.</p></article>
+        <article><span>03</span><h3>Repeatable inputs</h3><p>Seeded generation turns a polished demo into a reproducible engineering asset.</p></article>
+      </div>
+    </section>
+  </main>
+  <footer><span>Synthetic Episode Studio</span><p>Evaluation data, without patient risk.</p><small>Demonstration only · Built with Codex</small></footer>
+  <script>window.SCENARIOS = {{ scenarios | tojson }};</script>
+  <script src="{{ url_for('static', path='/studio.js') }}" defer></script>
+</body>
+</html>
