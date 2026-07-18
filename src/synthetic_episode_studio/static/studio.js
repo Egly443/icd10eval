@@ -6,6 +6,18 @@ const scenarioSelect = document.querySelector('#scenario');
 let currentEpisode = null;
 let toastTimer = null;
 
+const explainerVideo = document.querySelector('#explainer video');
+const resetExplainerVideo = () => {
+  if (!explainerVideo) return;
+  explainerVideo.pause();
+  explainerVideo.currentTime = 0;
+  explainerVideo.load();
+};
+explainerVideo?.addEventListener('ended', resetExplainerVideo);
+window.addEventListener('pageshow', () => {
+  if (explainerVideo?.ended || explainerVideo?.currentTime > 0) resetExplainerVideo();
+});
+
 const escapeHtml = (value) => String(value ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
 const niceDate = (value, options = {}) => new Intl.DateTimeFormat('en-GB', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit', timeZone:'UTC', ...options}).format(new Date(value));
 const titleCase = value => value.replaceAll('-', ' ').replace(/\b\w/g, c => c.toUpperCase());

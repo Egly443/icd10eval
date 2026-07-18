@@ -33,5 +33,5 @@ ffmpeg -hide_banner -loglevel error -y \
   -map '[video]' -map '[audio]' -t 60 -c:v libx264 -preset medium -crf 22 -pix_fmt yuv420p \
   -c:a aac -b:a 128k -movflags +faststart "$output"
 
-ffmpeg -hide_banner -loglevel error -y -ss 50.8 -i "$output" -frames:v 1 -q:v 2 "$poster"
+ffmpeg -hide_banner -loglevel error -y -ss 0.25 -i "$output" -frames:v 1 -q:v 2 "$poster"
 echo "Built $output"
