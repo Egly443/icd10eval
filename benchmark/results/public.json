@@ -1,0 +1,42 @@
+{
+  "benchmark": "EPICODE-Bench Mini",
+  "version": "1.0.0",
+  "case_count": 10,
+  "generated_at": "2026-07-18T12:06:31.853570+00:00",
+  "prompt_sha256": "5157e51d2b373eeb7231bd57594c9a9b4204c1698bb5a15b25b0736db8371d8e",
+  "models": ["gpt-5.6-sol", "gpt-5.6-luna"],
+  "runs": [
+    {
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "low",
+      "summary": {
+        "resolved": 1,
+        "total": 10,
+        "resolved_percent": 10.0,
+        "code_micro_f1": 100.0,
+        "evidence_micro_f1": 76.5,
+        "hallucination_percent": 0.0,
+        "format_success_percent": 100.0,
+        "average_latency_ms": 2249,
+        "input_tokens": 8523,
+        "output_tokens": 692
+      }
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "reasoning_effort": "low",
+      "summary": {
+        "resolved": 1,
+        "total": 10,
+        "resolved_percent": 10.0,
+        "code_micro_f1": 100.0,
+        "evidence_micro_f1": 76.9,
+        "hallucination_percent": 0.0,
+        "format_success_percent": 100.0,
+        "average_latency_ms": 1568,
+        "input_tokens": 8523,
+        "output_tokens": 1309
+      }
+    }
+  ]
+}

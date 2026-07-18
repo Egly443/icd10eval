@@ -7,6 +7,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%23075eb5%22/><path d=%22M8 16h16M16 8v16M10.3 10.3l11.4 11.4M21.7 10.3L10.3 21.7%22 stroke=%22white%22 stroke-width=%222.5%22 stroke-linecap=%22round%22/></svg>">
   <title>Synthetic Episode Studio</title>
   <link rel="stylesheet" href="{{ url_for('static', path='/studio.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', path='/studio-refined.css') }}">
 </head>
 <body>
   <div class="safety-strip">
@@ -21,26 +22,31 @@
     </a>
     <nav aria-label="Utility navigation">
       <a href="#studio">Generate</a>
+      <a href="#landscape">USA vs UK</a>
+      <a href="/epicode-bench">EPICODE-Bench</a>
       <a href="/docs">API</a>
-      <span class="version-pill">MVP · v0.1</span>
+      <span class="version-pill">SERIOUSLY FUN · v0.2</span>
     </nav>
   </header>
 
   <main>
+    <div class="confetti-layer" id="confetti-layer" aria-hidden="true"></div>
+    <div class="success-toast" id="success-toast" hidden role="status">✨ Ta-da! All the clinical drama, none of the data breach.</div>
     <section class="hero">
       <div class="hero-copy">
-        <div class="eyebrow"><span></span>Evaluation data, without patient risk</div>
-        <h1>Clinical episodes built for <em>proof, not production.</em></h1>
-        <p>Create consistent, traceable, export-ready synthetic NHS-style episodes for testing commercial clinical-coding products—without exposing patient data.</p>
+        <div class="eyebrow"><span></span>A narrow testbed for clinical coding systems</div>
+        <h1>Test the code.<br><em>Trace the proof.</em></h1>
+        <p>Build deterministic NHS-style episodes where every expected classification points back to the passage that earns it.</p>
         <div class="hero-actions">
-          <a class="button primary" href="#studio">Build an episode <span>→</span></a>
-          <button class="button quiet" id="run-demo" type="button"><span class="play">▶</span> Run the 90-sec demo</button>
+          <a class="button primary" href="#studio">Generate a case <span>↘</span></a>
+          <button class="button quiet" id="run-demo" type="button">Watch one run <span>→</span></button>
         </div>
         <div class="trust-row" aria-label="Product qualities">
           <span><b>✓</b> Deterministic</span>
           <span><b>✓</b> Evidence linked</span>
           <span><b>✓</b> Schema validated</span>
         </div>
+        <div class="hero-joke" role="note"><b>Synthetic by construction.</b> Serious by intent.</div>
       </div>
       <div class="hero-visual" aria-label="Episode traceability preview">
         <div class="glow"></div>
@@ -162,6 +168,57 @@
         <div class="safety-notice"><b>Important</b><span id="safety-notice"></span><i>No NHS endorsement implied.</i></div>
       </section>
       <div class="error-panel" id="error-panel" hidden><strong>Episode generation paused</strong><p id="error-copy"></p><button type="button" id="retry">Try again</button></div>
+    </section>
+
+    <section class="landscape-section" id="landscape">
+      <div class="landscape-intro reveal-on-scroll">
+        <span class="step-label">THE TRANSATLANTIC DATA SITUATION</span>
+        <h2>Same ambition. Very different eval cupboard.</h2>
+        <p>The US has become the default playground for reusable clinical-data benchmarks. The UK has rich national data, but patient-level access is usually governed, approved and project-specific. In short: excellent ingredients, fewer ready-made test kitchens.</p>
+      </div>
+
+      <div class="country-grid">
+        <article class="country-card usa reveal-on-scroll">
+          <header><span class="flag" aria-hidden="true">🇺🇸</span><div><small>UNITED STATES</small><h3>Benchmark buffet</h3></div><b class="availability good">More reusable</b></header>
+          <div class="dataset-list">
+            <a href="https://physionet.org/content/mimiciv/3.0/" target="_blank" rel="noreferrer">
+              <span class="dataset-icon">M4</span><div><strong>MIMIC-IV</strong><p>364k+ de-identified patients; hospital, ICU and ICD billing data.</p></div><em>Credentialed</em>
+            </a>
+            <a href="https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files" target="_blank" rel="noreferrer">
+              <span class="dataset-icon">CMS</span><div><strong>CMS SynPUFs</strong><p>Public synthetic Medicare claims in realistic CMS file formats.</p></div><em>Public</em>
+            </a>
+          </div>
+          <p class="country-take"><b>Commercial effect:</b> teams can prototype and compare sooner—although US coding and care pathways do not transfer neatly to the NHS. The Atlantic is not a validation strategy.</p>
+        </article>
+
+        <article class="country-card uk reveal-on-scroll">
+          <header><span class="flag" aria-hidden="true">🇬🇧</span><div><small>UNITED KINGDOM</small><h3>Treasure behind a drawbridge</h3></div><b class="availability gated">Rich, governed</b></header>
+          <div class="dataset-list">
+            <a href="https://digital.nhs.uk/services/artificial-data" target="_blank" rel="noreferrer">
+              <span class="dataset-icon">A-HES</span><div><strong>Artificial HES</strong><p>Three public, large-scale files for schemas, teaching and pipelines—not coherent patient journeys.</p></div><em>Public</em>
+            </a>
+            <a href="https://digital.nhs.uk/data-and-information/data-tools-and-services/data-services/hospital-episode-statistics" target="_blank" rel="noreferrer">
+              <span class="dataset-icon">HES</span><div><strong>Hospital Episode Statistics</strong><p>England-wide admitted care, outpatient and emergency activity.</p></div><em>Application</em>
+            </a>
+            <a href="https://www.cprd.com/doi/cprd-gold-december-2024-dataset" target="_blank" rel="noreferrer">
+              <span class="dataset-icon">GP</span><div><strong>CPRD</strong><p>Longitudinal UK primary-care records with linked health data.</p></div><em>Approval + licence</em>
+            </a>
+          </div>
+          <p class="country-take"><b>Commercial effect:</b> superb real-world evidence exists, and public artificial HES helps test plumbing. But coherent product evaluation can still inherit access lead-time, governance cost and restricted portability.</p>
+        </article>
+      </div>
+
+      <div class="opportunity-card reveal-on-scroll">
+        <div class="opportunity-number">£?</div>
+        <div><span>THE BUSINESS CASE</span><h3>Build the test track before renting the motorway.</h3><p>A curated UK synthetic benchmark lets product, clinical and procurement teams agree acceptance criteria early. Use it for rapid regression tests, evidence demos and vendor comparisons; reserve governed real data for later-stage external validation.</p></div>
+        <ul>
+          <li><b>Faster</b><span>Start before data-access approval</span></li>
+          <li><b>Safer</b><span>Develop without patient exposure</span></li>
+          <li><b>Cheaper</b><span>Catch failures before pilots</span></li>
+          <li><b>UK-native</b><span>ICD-10 + OPCS-4 pathways</span></li>
+        </ul>
+      </div>
+      <p class="landscape-note">Landscape snapshot, 18 July 2026. “Fewer ready-made benchmarks” is our inference from the access models shown—not a claim that UK health data is absent. Synthetic results establish engineering confidence, not clinical validity.</p>
     </section>
 
     <section class="value-section">

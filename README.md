@@ -1,5 +1,7 @@
 # Synthetic Episode Studio
 
+Public demo: [egly443.github.io/icd10eval](https://egly443.github.io/icd10eval/)
+
 Create consistent, traceable, export-ready synthetic NHS-style clinical episodes without exposing patient data.
 
 Synthetic Episode Studio is a hackathon MVP for AI developers and NHS-facing evaluation teams assessing commercial clinical-coding products. It creates repeatable evaluation inputs—not scores—from ten curated General Surgery and Well Baby pathways. Each output is schema-valid, carries explicit generation provenance, and links every expected ICD-10 or OPCS-4 classification to the passages that support it.
@@ -65,11 +67,30 @@ curl -X POST http://127.0.0.1:8000/api/episodes \
 | `POST /api/episodes` | Generate, validate and persist an episode |
 | `GET /api/episodes/{episode_id}` | Retrieve a generated episode |
 | `GET /api/episodes/{episode_id}/download` | Download validated JSON |
+| `GET /api/benchmark` | Latest EPICODE-Bench Mini leaderboard data |
+
+## EPICODE-Bench Mini
+
+Open [http://127.0.0.1:8000/epicode-bench](http://127.0.0.1:8000/epicode-bench) for the SWE-bench-style leaderboard. The benchmark contains one fixed-seed case for each of the ten pathways. Models receive clinical passages and a closed 14-code ICD-10/OPCS-4 codebook; diagnoses, expected codes, rationales and other label-bearing fields are withheld.
+
+The headline **Episode Resolved** metric requires both the exact classification set and exact supporting-passage set. Secondary metrics report micro code F1, micro evidence F1, hallucinated-code rate, latency and token use.
+
+```bash
+# Rebuild the committed ten-case dataset
+.venv/bin/python -m synthetic_episode_studio.benchmark generate
+
+# Run the official frontier-vs-cost-sensitive comparison (20 API requests)
+export OPENAI_API_KEY="..."
+.venv/bin/python -m synthetic_episode_studio.benchmark run
+```
+
+The default contenders are `gpt-5.6-sol` and `gpt-5.6-luna`, with identical prompts. Sol runs with `xhigh` reasoning effort; Luna remains at `low`. The private detailed report is written to `benchmark/results/latest.json`, while the summary-only public report is written to `benchmark/results/public.json`. API use incurs charges; do not commit API keys.
 
 ## Rebuild and verify
 
 ```bash
 .venv/bin/python scripts/build_exemplars.py
+.venv/bin/python scripts/build_static_site.py
 .venv/bin/pytest
 ```
 

@@ -4,10 +4,29 @@ const loader = document.querySelector('#loading-panel');
 const errorPanel = document.querySelector('#error-panel');
 const scenarioSelect = document.querySelector('#scenario');
 let currentEpisode = null;
+let toastTimer = null;
 
 const escapeHtml = (value) => String(value ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
 const niceDate = (value, options = {}) => new Intl.DateTimeFormat('en-GB', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit', timeZone:'UTC', ...options}).format(new Date(value));
 const titleCase = value => value.replaceAll('-', ' ').replace(/\b\w/g, c => c.toUpperCase());
+
+function celebrate() {
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const layer = document.querySelector('#confetti-layer');
+    const colours = ['#5841d8', '#ef4f91', '#ffd45c', '#08a9c5', '#ff795e', '#39c6b0'];
+    layer.innerHTML = Array.from({length: 44}, (_, index) => {
+      const left = (index * 37) % 100;
+      const delay = (index % 9) * 0.035;
+      const drift = ((index % 7) - 3) * 28;
+      return `<i class="confetti" style="left:${left}%;background:${colours[index % colours.length]};animation-delay:${delay}s;--drift:${drift}px"></i>`;
+    }).join('');
+    setTimeout(() => { layer.innerHTML = ''; }, 2400);
+  }
+  const toast = document.querySelector('#success-toast');
+  toast.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toast.hidden = true; }, 3200);
+}
 
 function setTrack(track) {
   document.querySelectorAll('.track-card').forEach(card => card.classList.toggle('selected', card.querySelector('input').value === track));
@@ -43,9 +62,9 @@ form.addEventListener('submit', async event => {
   errorPanel.hidden = true;
   loader.hidden = false;
   const stages = [
-    ['Applying clinical constraints', 'Building a coherent chronology and document set…'],
-    ['Mapping traceable classifications', 'Resolving each code to supporting passages…'],
-    ['Running quality gates', 'Checking schema, provenance and evidence coverage…'],
+    ['Applying clinical constraints', 'Asking the timeline nicely to remain coherent…'],
+    ['Mapping traceable classifications', 'Giving every code a receipt. Finance would be proud…'],
+    ['Running quality gates', 'Checking schema, provenance and suspiciously tidy evidence…'],
   ];
   let stage = 0;
   const stageTimer = setInterval(() => {
@@ -54,17 +73,23 @@ form.addEventListener('submit', async event => {
     document.querySelector('#loading-copy').textContent = item[1];
   }, 380);
   try {
-    const response = await fetch('/api/episodes', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({scenario_id: resolvedScenario(), seed: Number(document.querySelector('#seed').value)}),
-    });
-    if (!response.ok) throw new Error((await response.json()).detail || 'Generation failed');
-    currentEpisode = await response.json();
+    if (window.STATIC_EPISODES) {
+      currentEpisode = window.STATIC_EPISODES[resolvedScenario()];
+      if (!currentEpisode) throw new Error('No public sample is available for this pathway');
+    } else {
+      const response = await fetch('/api/episodes', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({scenario_id: resolvedScenario(), seed: Number(document.querySelector('#seed').value)}),
+      });
+      if (!response.ok) throw new Error((await response.json()).detail || 'Generation failed');
+      currentEpisode = await response.json();
+    }
     await new Promise(resolve => setTimeout(resolve, 850));
     renderEpisode(currentEpisode);
     loader.hidden = true;
     shell.hidden = false;
+    celebrate();
     shell.scrollIntoView({behavior:'smooth', block:'start'});
   } catch (error) {
     loader.hidden = true;
@@ -87,7 +112,13 @@ function renderEpisode(episode) {
   document.querySelector('#encounter-summary').textContent = episode.encounter_summary;
   document.querySelector('#procedure-note').textContent = episode.procedure_note;
   document.querySelector('#safety-notice').textContent = episode.safety_notice;
-  document.querySelector('#download-link').href = `/api/episodes/${encodeURIComponent(meta.episode_id)}/download`;
+  const downloadLink = document.querySelector('#download-link');
+  if (window.STATIC_EPISODES) {
+    downloadLink.href = URL.createObjectURL(new Blob([JSON.stringify(episode, null, 2)], {type:'application/json'}));
+    downloadLink.download = `${meta.episode_id}.json`;
+  } else {
+    downloadLink.href = `/api/episodes/${encodeURIComponent(meta.episode_id)}/download`;
+  }
   document.querySelector('#code-count').textContent = episode.codes.length;
 
   document.querySelector('#quality-grid').innerHTML = [
@@ -136,3 +167,24 @@ document.querySelector('#copy-id').addEventListener('click', async event => {
   event.currentTarget.textContent = 'Copied ✓';
   setTimeout(() => { event.currentTarget.textContent = 'Copy ID'; }, 1200);
 });
+
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, {threshold: 0.14});
+document.querySelectorAll('.reveal-on-scroll').forEach(element => revealObserver.observe(element));
+
+if (window.STATIC_SITE) {
+  const seed = document.querySelector('#seed');
+  seed.value = 2026;
+  seed.disabled = true;
+  seed.title = 'The public static demo uses reviewed seed-2026 samples';
+  document.querySelector('#randomise').hidden = true;
+  const button = document.querySelector('.generate-button');
+  button.querySelector('b').textContent = 'Load sample episode';
+  button.querySelector('small').textContent = 'Reviewed public fixture';
+}

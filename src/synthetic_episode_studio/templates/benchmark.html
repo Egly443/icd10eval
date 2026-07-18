@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="EPICODE-Bench Mini: a ten-episode benchmark for evidence-grounded UK clinical coding.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 fill=%22%23ee4b2b%22/><path d=%22M8 7h16v5H13v3h10v5H13v3h11v5H8z%22 fill=%22%23fffaf0%22/></svg>">
+  <title>EPICODE-Bench Mini · Clinical coding leaderboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='/benchmark.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', path='/benchmark-refined.css') }}">
+</head>
+<body>
+  <div class="topline"><span>10 synthetic episodes</span><span>14-code closed world</span><span>Zero patient data</span></div>
+  <header>
+    <a class="wordmark" href="/"><i>E</i><span>EPICODE-Bench <b>Mini</b></span></a>
+    <nav><a href="#leaderboard">Leaderboard</a><a href="#method">Method</a><a href="/">Episode Studio ↗</a></nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="kicker"><span>UK CLINICAL CODING EVAL</span><b>v{{ report.version }}</b></div>
+        <h1>Clinical coding.<br><em>Measured.</em></h1>
+        <p>Ten synthetic episodes. Fourteen permitted codes. One exacting question: can a model choose the right classification and show precisely where the record supports it?</p>
+        <div class="hero-actions"><a href="#leaderboard">Read the results <span>↓</span></a><span>Run 001 · 18 July 2026</span></div>
+      </div>
+      <div class="result-poster" aria-label="Headline benchmark result">
+        <header><span>EPICODE / RUN 001</span><b>COMPLETE</b></header>
+        <div class="poster-score"><small>STRICT RESOLUTION</small><strong id="poster-resolved">10%</strong></div>
+        <div class="poster-grid"><div><small>CODE F1</small><b id="poster-code">100%</b></div><div><small>EVIDENCE F1</small><b id="poster-evidence">76.9%</b></div></div>
+        <footer><span>02 MODELS</span><span>10 EPISODES</span><span>NO PATIENT DATA</span></footer>
+      </div>
+    </section>
+
+    <section class="leaderboard-section" id="leaderboard">
+      <div class="section-head">
+        <div><span>THE MAIN EVENT</span><h2>EPICODE-Bench Mini leaderboard</h2></div>
+        <div class="status" id="run-status"><i></i><span></span></div>
+      </div>
+      <div class="leaderboard-card">
+        <div class="table-note"><b>Primary metric</b> Episode Resolved requires the exact code set <em>and</em> exact supporting passage set.</div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Rank</th><th>Model</th><th>Episode resolved</th><th>Code F1</th><th>Evidence F1</th><th>Hallucination</th><th>Avg latency</th></tr></thead>
+            <tbody id="leaderboard-body"></tbody>
+          </table>
+        </div>
+        <div class="legend"><span><i class="sol"></i>Frontier</span><span><i class="luna"></i>Cost-sensitive</span><span>↳ Same prompt · Same ten cases · Model-specific reasoning</span></div>
+      </div>
+      <div class="awaiting" id="awaiting" hidden>
+        <span>🔌</span><div><b>The arena is built; the API key has not entered the building.</b><p>Set <code>OPENAI_API_KEY</code>, then run <code>.venv/bin/python -m synthetic_episode_studio.benchmark run</code>. Results appear here automatically.</p></div>
+      </div>
+    </section>
+
+    <section class="method" id="method">
+      <div class="method-title"><span>RULES OF ENGAGEMENT</span><h2>Small enough to understand.<br>Strict enough to fail.</h2><p>This is an engineering smoke test, not evidence of clinical safety or broad model capability.</p></div>
+      <div class="method-grid">
+        <article><b>01</b><span class="icon">▦</span><h3>One case per pathway</h3><p>Five General Surgery and five Well Baby episodes, generated from fixed seeds.</p></article>
+        <article><b>02</b><span class="icon">⌁</span><h3>Labels stay hidden</h3><p>Models see clinical passages and a closed 14-code reference set—not diagnoses, gold codes or rationales.</p></article>
+        <article><b>03</b><span class="icon">◎</span><h3>Exact means exact</h3><p>A case resolves only when codes and every supporting passage ID match the gold contract.</p></article>
+        <article><b>04</b><span class="icon">↻</span><h3>Reproducible by design</h3><p>Fixed cases, versioned prompt hash, stored raw predictions, token counts and latency.</p></article>
+      </div>
+    </section>
+
+    <section class="metric-strip">
+      <div><strong>10</strong><span>episodes</span></div><div><strong>2</strong><span>clinical tracks</span></div><div><strong>14</strong><span>candidate codes</span></div><div><strong>20</strong><span>model calls</span></div><p>More benchmark theatre per square metre than strictly necessary.</p>
+    </section>
+  </main>
+  <footer><span>EPICODE-Bench Mini</span><p>Synthetic demonstration benchmark · Not clinically validated · No NHS endorsement implied</p><a href="/api/benchmark">JSON results ↗</a></footer>
+  <script>window.EPICODE_REPORT = {{ report | tojson }};</script>
+  <script src="{{ url_for('static', path='/benchmark.js') }}" defer></script>
+</body>
+</html>

@@ -2,6 +2,18 @@
 
 Accessed 18 July 2026. Sources were used to bound plausible synthetic narratives and verify the deliberately small classification subset. No real patient record or reference case was copied.
 
+## Evaluation-data landscape
+
+| Region | Dataset | What it establishes for the business-case comparison |
+|---|---|---|
+| USA | [MIMIC-IV v3.0 (PhysioNet)](https://physionet.org/content/mimiciv/3.0/) | A reusable credentialed benchmark with 364,627 de-identified patients, hospital/ICU events and ICD billing data |
+| USA | [CMS Medicare Claims Synthetic Public Use Files](https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-claims-synthetic-public-use-files) | Publicly downloadable synthetic claims designed for software development and familiarity with CMS formats; CMS cautions against population inference |
+| England | [NHS England Artificial Data pilot](https://digital.nhs.uk/services/artificial-data) | Three public artificial HES datasets support pipeline development, teaching and schema familiarity; relationships between fields are not preserved, records can be unrealistic and the files cannot support analysis |
+| England | [Hospital Episode Statistics](https://digital.nhs.uk/data-and-information/data-tools-and-services/data-services/hospital-episode-statistics) | National patient-level hospital activity data spanning admitted care, outpatient appointments and emergency attendance; access to record-level extracts is governed |
+| UK | [CPRD GOLD December 2024](https://www.cprd.com/doi/cprd-gold-december-2024-dataset) | Longitudinal UK primary-care EHR data with linked sources; anonymised extracts require a licence, study specification and protocol approval |
+
+The page's “fewer ready-made UK benchmarks” statement is an inference from these access models, not a claim that the UK lacks rich health data. These sources are representative examples rather than an exhaustive catalogue. Public aggregate NHS statistics, controlled real-world data and synthetic engineering fixtures serve different evaluation questions and should not be treated as interchangeable.
+
 ## Classification and coding sources
 
 | Source | Use in the MVP |

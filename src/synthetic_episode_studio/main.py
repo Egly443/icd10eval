@@ -4,11 +4,12 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import Response
+from fastapi.responses import RedirectResponse, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from .generator import DeterministicTemplateProvider
+from .benchmark import public_report
 from .models import Episode, GenerateRequest
 from .repository import EpisodeRepository
 from .scenarios import SCENARIO_BY_ID, scenario_catalogue
@@ -60,6 +61,25 @@ async def index(request: Request):
             "recent": repository.list_recent(),
         },
     )
+
+
+@app.get("/epicode-bench", include_in_schema=False)
+async def epicode_bench(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="benchmark.html",
+        context={"report": public_report()},
+    )
+
+
+@app.get("/crown-bench", include_in_schema=False)
+async def legacy_crown_bench() -> RedirectResponse:
+    return RedirectResponse(url="/epicode-bench", status_code=308)
+
+
+@app.get("/api/benchmark")
+async def benchmark_report() -> dict:
+    return public_report()
 
 
 @app.get("/health")

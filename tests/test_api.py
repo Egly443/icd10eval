@@ -32,6 +32,16 @@ async def test_home_and_health(client: AsyncClient) -> None:
 
 
 @pytest.mark.anyio
+async def test_epicode_bench_page_and_report(client: AsyncClient) -> None:
+    page = await client.get("/epicode-bench")
+    assert page.status_code == 200
+    assert "EPICODE-Bench Mini leaderboard" in page.text
+    report = (await client.get("/api/benchmark")).json()
+    assert report["benchmark"] == "EPICODE-Bench Mini"
+    assert report["case_count"] == 10
+
+
+@pytest.mark.anyio
 async def test_catalogue_has_two_tracks_and_ten_scenarios(client: AsyncClient) -> None:
     response = await client.get("/api/scenarios")
     assert response.status_code == 200
