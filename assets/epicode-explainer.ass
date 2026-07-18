@@ -20,7 +20,6 @@ Dialogue: 0,0:00:03.20,0:00:06.70,Body,,0,0,0,,An ambulance arrives.\NA patient 
 Dialogue: 1,0:00:06.70,0:00:09.80,Detail,,0,0,0,,The hi-vis pigeon has already\Nopened an incident ticket.
 Dialogue: 0,0:00:10.10,0:00:13.50,Title,,0,0,0,,DOCTORS TREAT. THEN DOCUMENT.
 Dialogue: 0,0:00:13.40,0:00:17.20,Body,,0,0,0,,Notes. Scans. Discharge summaries.\NMore notes.
-Dialogue: 1,0:00:17.20,0:00:19.80,Detail,,0,0,0,,And one mysterious sentence\Ncopied forward since Tuesday.
 Dialogue: 0,0:00:20.10,0:00:23.50,Title,,0,0,0,,ENTER: CLINICAL CODING
 Dialogue: 0,0:00:23.30,0:00:27.20,Body,,0,0,0,,Across NHS trusts, coding teams\Ncan run to 30+ specialists.\NThey read the whole episode.
 Dialogue: 1,0:00:27.20,0:00:29.80,Detail,,0,0,0,,Years to master. Labour-intensive.\NRipe for careful automation.
@@ -29,7 +28,7 @@ Dialogue: 0,0:00:33.60,0:00:37.20,Body,,0,0,0,,The codes drive reimbursement,\Ne
 Dialogue: 1,0:00:37.20,0:00:39.80,Detail,,0,0,0,,No codes, no money. Finance starts\Nbreathing into a paper bag.
 Dialogue: 0,0:00:40.10,0:00:43.30,Title,,0,0,0,,AI COULD HELP. TINY PROBLEM: DATA.
 Dialogue: 0,0:00:43.10,0:00:46.00,Body,,0,0,0,,Patient records are sensitive.\NYou cannot simply download a ward.
-Dialogue: 1,0:00:46.00,0:00:49.80,Detail,,0,0,0,,USA: MIMIC-IV — reusable, US-specific.\NUK: OPCS-4, governance, tea.
+Dialogue: 1,0:00:46.00,0:00:49.80,Detail,,0,0,0,,USA: MIMIC-IV — reusable, US-specific.\NUK: Not much available?!!!!
 Dialogue: 0,0:00:50.10,0:00:53.10,Title,,0,0,0,,SO WE BUILT THE TEST TRACK
 Dialogue: 0,0:00:53.00,0:00:56.20,Body,,0,0,0,,UK-specific synthetic training episodes\N+ a benchmark for coding AI products.
 Dialogue: 1,0:00:56.20,0:00:58.20,Detail,,0,0,0,,Catch hallucinations before they invoice anyone.
